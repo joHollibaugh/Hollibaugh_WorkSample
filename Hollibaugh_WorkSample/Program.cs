@@ -14,13 +14,13 @@ namespace Hollibaugh_WorkSample
         {
             bool running = true;
             MultiValueDictionary dict = new MultiValueDictionary();
-          
+
             Console.WriteLine("Enter a command or '/help' for a list of commands \n");
             while (running)
             {
                 // Read user input, space delimited
                 var _input = Console.ReadLine();
-                if(_input.ToUpper() == "EXIT")
+                if (_input.ToUpper() == "EXIT")
                 {
                     running = false;
                 }
@@ -43,112 +43,120 @@ namespace Hollibaugh_WorkSample
         {
             try
             {
-            string[] input = _input.Split(" ");
-            // Trim first char if copy pasting commands
-            if (input[0] == ">")
-            {
-                input = input.Skip(1).ToArray();
+                string[] input = _input.Split(" ");
+                // Trim first char if copy pasting commands
+                if (input[0] == ">")
+                {
+                    input = input.Skip(1).ToArray();
+                }
+                string cmd = input[0];
+                string k = string.Empty;
+                string v = string.Empty;
+                // call MultiValueDictionary based on input
+                switch (cmd.ToUpper())
+                {
+                    case "ADD":
+                        if (input.Length != 3)
+                        {
+                            return "Invalid number of arguments for " + cmd + ".";
+                        }
+                        k = input[1];
+                        v = input[2];
+                        return this.AddMember(k, v);
+
+                    case "REMOVE":
+                        if (input.Length != 3)
+                        {
+                            return "Invalid number of arguments for " + cmd + ".";
+                        }
+                        k = input[1];
+                        v = input[2];
+                        return this.RemoveMember(k, v);
+
+                    case "MEMBERS":
+                        if (input.Length != 2)
+                        {
+                            return "Invalid number of arguments for " + cmd + ".";
+                        }
+                        k = input[1];
+                        return this.GetMembersByKey(k);
+
+                    case "KEYS":
+                        if (input.Length != 1)
+                        {
+                            return "Invalid number of arguments for " + cmd + ".";
+                        }
+                        return this.GetKeys();
+
+                    case "REMOVEALL":
+                        if (input.Length != 2)
+                        {
+                            return "Invalid number of arguments for " + cmd + ".";
+                        }
+                        k = input[1];
+                        return this.RemoveKey(k);
+
+                    case "CLEAR":
+                        if (input.Length != 1)
+                        {
+                            return "Invalid number of arguments for " + cmd + ".";
+                        }
+                        return this.Clear();
+
+                    case "KEYEXISTS":
+                        if (input.Length != 2)
+                        {
+                            return "Invalid number of arguments for " + cmd + ".";
+                        }
+                        k = input[1];
+                        return this.KeyExists(k);
+
+                    case "MEMBEREXISTS":
+                        if (input.Length != 3)
+                        {
+                            return "Invalid number of arguments for " + cmd + ".";
+                        }
+                        k = input[1];
+                        v = input[2];
+
+                        return this.MemberExists(k, v);
+
+                    case "ALLMEMBERS":
+                        if (input.Length != 1)
+                        {
+                            return "Invalid number of arguments for " + cmd + ".";
+                        }
+                        return this.GetAllMembers(false);
+
+                    case "ITEMS":
+                        if (input.Length != 1)
+                        {
+                            return "Invalid number of arguments for " + cmd + ".";
+                        }
+                        return this.GetAllMembers(true);
+
+                    case "HELP":
+                        return
+                            "**************************************************************************************************************** " +
+                            "Enter one of the following commands. Separate arguments by a single space. \n" +
+                            "ADD {Key Value}            - Adds a value to the dictionary at Key. Key is created if it doesn't already exist. \n" +
+                            "REMOVE {Key Value}         - Remove a member from value at Key. If Key has 0 members after the removal, Key is removed. \n" +
+                            "MEMBERS {Key}              - List the members for Key. \n" +
+                            "KEYS                       - List all Keys \n" +
+                            "REMOVEALL {Key}            - Remove all members for Key\n" +
+                            "CLEAR                      - Remove all members and Keys\n" +
+                            "KEYEXISTS {Key}            - Check if Key exists\n" +
+                            "MEMBEREXISTS {Key value}   - Check if Member exists for Key\n" +
+                            "ALLMEMBERS                 - Lists all Members for all Keys\n" +
+                            "ITEMS                      - Lists all Keys and Members\n" +
+                            "EXIT               - Quit the application.\n\n" +
+                            "*Input is not case sensitive.\n";
+
+                    default:
+                        return cmd + " is not a valid command.";
+                }
             }
-            string cmd = input[0];
-            string k = string.Empty;
-            string v = string.Empty;
-            // call MultiValueDictionary based on input
-            switch (cmd.ToUpper())
-            {
-                case "ADD":
-                    if (input.Length != 3)
-                    {
-                        return "Invalid number of arguments for " + cmd + ".";
-                    }
-                    k = input[1];
-                    v = input[2];
-                    return this.AddMember(k, v);
-
-                case "REMOVE":
-                    if (input.Length != 3)
-                    {
-                        return "Invalid number of arguments for " + cmd + ".";
-                    }
-                    k = input[1];
-                    v = input[2];
-                    return this.RemoveMember(k, v);
-
-                case "MEMBERS":
-                    if (input.Length != 2)
-                    {
-                        return "Invalid number of arguments for " + cmd + ".";
-                    }
-                    k = input[1];
-                    return this.GetMembersByKey(k);
-
-                case "KEYS":
-                    if (input.Length != 1)
-                    {
-                        return "Invalid number of arguments for " + cmd + ".";
-                    }
-                    return this.GetKeys();
-
-                case "REMOVEALL":
-                    if (input.Length != 2)
-                    {
-                        return "Invalid number of arguments for " + cmd + ".";
-                    }
-                    k = input[1];
-                    return this.RemoveKey(k);
-
-                case "CLEAR":
-                    if (input.Length != 1)
-                    {
-                        return "Invalid number of arguments for " + cmd + ".";
-                    }
-                    return this.Clear();
-
-                case "KEYEXISTS":
-                    if (input.Length != 2)
-                    {
-                        return  "Invalid number of arguments for " + cmd + ".";
-                    }
-                    k = input[1];
-                    return this.KeyExists(k);
-
-                case "MEMBEREXISTS":
-                    if (input.Length != 3)
-                    {
-                        return "Invalid number of arguments for " + cmd + ".";
-                    }
-                    k = input[1];
-                    v = input[2];
-
-                    return this.MemberExists(k, v);
-
-                case "ALLMEMBERS":
-                    if (input.Length != 1)
-                    {
-                        return "Invalid number of arguments for " + cmd + ".";
-                    }
-                    return this.GetAllMembers(false);
-
-                case "ITEMS":
-                    if (input.Length != 1)
-                    {
-                        return "Invalid number of arguments for " + cmd + ".";
-                    }
-                    return this.GetAllMembers(true);
-
-                case "HELP":
-                    return
-                        "**************************************************************************************************************** " +
-                        "Enter one of the following commands. Separate arguments by a single space. " +
-                        "ADD Key Value    - Adds a value to the dictionary at Key. Key is created if it doesn't already exist. " +
-                        "REMOVE Key Value - Remove a member from value at Key. If Key has 0 members after the removal, Key is removed. " +
-                        "MEMBERS Key      - List the members of Key a contact " +
-                        "KEYS             - List all Keys " +
-                        "EXIT             - Quit the application.";
-
-                default:
-                    return cmd + " is not a valid command.";
-            }
-            } catch(Exception e)
+            catch (Exception e)
             {
                 this.LogException(e);
                 return "An Error Occurred. See log for details";
@@ -252,14 +260,14 @@ namespace Hollibaugh_WorkSample
             return (dict.ContainsKey(key) && dict[key].Contains(val)).ToString(); ;
         }
 
-        public string GetAllMembers(bool includeKey )
+        public string GetAllMembers(bool includeKey)
         {
             StringBuilder sb = new StringBuilder();
-            foreach(string key in dict.Keys)
+            foreach (string key in dict.Keys)
             {
-                dict[key].ForEach((val) => sb.AppendLine((includeKey? key + ": ": string.Empty) + val));
+                dict[key].ForEach((val) => sb.AppendLine((includeKey ? key + ": " : string.Empty) + val));
             }
-            if(sb.ToString().Length <= 0)
+            if (sb.ToString().Length <= 0)
             {
                 return "empty set";
             }
