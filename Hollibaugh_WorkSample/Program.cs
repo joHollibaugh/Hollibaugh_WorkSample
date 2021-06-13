@@ -15,7 +15,7 @@ namespace Hollibaugh_WorkSample
             bool running = true;
             MultiValueDictionary dict = new MultiValueDictionary();
 
-            Console.WriteLine("Enter a command or '/help' for a list of commands \n");
+            Console.WriteLine("Enter a command or 'help' for a list of commands \n");
             while (running)
             {
                 // Read user input, space delimited
