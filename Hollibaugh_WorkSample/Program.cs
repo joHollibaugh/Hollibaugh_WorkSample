@@ -44,11 +44,6 @@ namespace Hollibaugh_WorkSample
             try
             {
                 string[] input = _input.Split(" ");
-                // Trim first char if copy pasting commands
-                if (input[0] == ">")
-                {
-                    input = input.Skip(1).ToArray();
-                }
                 string cmd = input[0];
                 string k = string.Empty;
                 string v = string.Empty;
